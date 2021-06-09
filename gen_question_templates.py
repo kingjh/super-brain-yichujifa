@@ -12,27 +12,27 @@ ele_cnt = row_cnt * col_cnt * floor_cnt
 # 如题目第1盏灯是红色，目标图形中是绿色，因为红变绿需要变动3次，所以该行请填3到第1行）
 questions = np.zeros([ele_cnt, ele_cnt], int)
 cnt_per_floor = row_cnt * col_cnt
-for i in range(row_cnt):
-    for j in range(col_cnt):
-        for k in range(floor_cnt):
+for k in range(floor_cnt):
+    for i in range(row_cnt):
+        for j in range(col_cnt):
             # 元素序号(由0开始)
             ele_idx = k * cnt_per_floor + i * col_cnt + j
             questions[ele_idx, ele_idx] = 1
             # 行、列、高取-1、0、1，获取受当前元素影响的元素
             for delta in range(-1, 2, 2):
-                affected_i = i + delta
-                if 0 <= affected_i < row_cnt:
-                    affected_idx = k * cnt_per_floor + affected_i * col_cnt + j
-                    questions[ele_idx, affected_idx] = 1
+                adjacent_i = i + delta
+                if 0 <= adjacent_i < row_cnt:
+                    adjacent_idx = k * cnt_per_floor + adjacent_i * col_cnt + j
+                    questions[ele_idx, adjacent_idx] = 1
 
-                affected_j = j + delta
-                if 0 <= affected_j < col_cnt:
-                    affected_idx = k * cnt_per_floor + i * col_cnt + affected_j
-                    questions[ele_idx, affected_idx] = 1
-                affected_k = k + delta
-                if 0 <= affected_k < floor_cnt:
-                    affected_idx = affected_k * cnt_per_floor + i * col_cnt + j
-                    questions[ele_idx, affected_idx] = 1
+                adjacent_j = j + delta
+                if 0 <= adjacent_j < col_cnt:
+                    adjacent_idx = k * cnt_per_floor + i * col_cnt + adjacent_j
+                    questions[ele_idx, adjacent_idx] = 1
+                adjacent_k = k + delta
+                if 0 <= adjacent_k < floor_cnt:
+                    adjacent_idx = adjacent_k * cnt_per_floor + i * col_cnt + j
+                    questions[ele_idx, adjacent_idx] = 1
 
 
 np.savetxt("question-templates/{0}-{1}-{2}.csv".format(row_cnt, col_cnt, floor_cnt), questions, '%d', delimiter=',')

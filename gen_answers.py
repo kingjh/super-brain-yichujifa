@@ -58,10 +58,9 @@ def verify_sols(row_idx):
     global elementss, eliminated_elementss, var_cnt, var_cnt
     eless = eliminated_elementss[row_idx]
     start_row_idx = 0 if row_idx == -1 else row_idx
-    flag = reduce(lambda x, y: x and y,
+    return reduce(lambda x, y: x and y,
                   sols[start_row_idx: var_cnt].dot(eless[start_row_idx: var_cnt, start_row_idx: var_cnt].T) % 4
                   == eless[start_row_idx: var_cnt, -1:].T[0], True)
-    return flag
 
 
 def get_sols(row_idx):
